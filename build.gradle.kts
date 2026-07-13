@@ -1,7 +1,7 @@
 plugins {
     kotlin("jvm") version "2.3.21"
     `java-library`
-    id("org.jetbrains.dokka") version "2.1.0"
+    id("org.jetbrains.dokka") version "2.2.0"
     id("com.vanniktech.maven.publish") version "0.37.0"
     jacoco
 }
