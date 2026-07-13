@@ -2,7 +2,7 @@
 
 ## Reporting a vulnerability
 
-Do not open a public issue for a suspected vulnerability. Use GitHub private vulnerability reporting at `Security → Advisories → Report a vulnerability` in the canonical repository. If that surface is unavailable, email `royostudios13@gmail.com` with the subject `SECURITY: wallet-hd-derivation-kit` and avoid attaching real keys, mnemonics, seeds, or wallet data.
+Do not open a public issue for a suspected vulnerability. Use GitHub private vulnerability reporting at `Security → Advisories → Report a vulnerability` in the canonical repository. If that surface is unavailable, email `devdas98x@gmail.com` with the subject `SECURITY: wallet-hd-derivation-kit` and avoid attaching real keys, mnemonics, seeds, or wallet data.
 
 ROYO STUDIOS will acknowledge a complete report within 72 hours, investigate privately, coordinate a fix and disclosure date, and credit the reporter unless anonymity is requested. No bounty is promised.
 

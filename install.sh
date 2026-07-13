@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-VERSION="1.0.0"
+VERSION="1.0.1"
 PREFIX="${HOME}/.local"
 FORCE=0
 DRY_RUN=0

@@ -7,7 +7,9 @@ plugins {
 }
 
 group = "io.github.devdasx"
-version = "1.0.0"
+version = "1.0.1"
+providers.gradleProperty("group").orNull?.let { group = it }
+providers.gradleProperty("version").orNull?.let { version = it }
 
 repositories {
     mavenCentral()
@@ -127,7 +129,7 @@ mavenPublishing {
             developer {
                 id.set("devdasx")
                 name.set("ROYO STUDIOS")
-                email.set("royostudios13@gmail.com")
+                email.set("devdas98x@gmail.com")
             }
         }
         scm {
