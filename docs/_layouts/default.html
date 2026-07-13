@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{% if page.title %}{{ page.title }} · {% endif %}Wallet HD Derivation Kit</title>
+  <meta name="description" content="{{ page.description | default: site.description }}">
+  <link rel="canonical" href="{{ site.url }}{{ site.baseurl }}{{ page.url }}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ page.title | default: site.title }}">
+  <meta property="og:description" content="{{ page.description | default: site.description }}">
+  <meta property="og:url" content="{{ site.url }}{{ site.baseurl }}{{ page.url }}">
+  <meta property="og:image" content="{{ site.url }}{{ site.baseurl }}/assets/og-card.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"Wallet HD Derivation Kit","codeRepository":"https://github.com/devdasx/wallet-hd-derivation-kit","license":"https://spdx.org/licenses/MIT.html","programmingLanguage":["Swift","JavaScript","TypeScript","Python","Rust","Go","Dart","Kotlin"],"runtimePlatform":["Apple platforms","Node.js","React Native","Python","Rust","Go","Flutter","JVM","Android"]}</script>
+  <style>
+    :root{color-scheme:light dark;--accent:#f7931a;--max:980px}body{font:16px/1.65 system-ui,-apple-system,sans-serif;margin:0}header,main,footer{max-width:var(--max);margin:auto;padding:1rem 1.4rem}header{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;border-bottom:1px solid #8885}header a{color:inherit;text-decoration:none}nav{display:flex;gap:.9rem;flex-wrap:wrap}main{min-height:70vh}a{color:var(--accent)}pre{padding:1rem;overflow:auto;border-radius:.5rem;background:#8882}code{font-family:ui-monospace,monospace}table{border-collapse:collapse;width:100%;display:block;overflow:auto}th,td{padding:.5rem .7rem;border:1px solid #8885;text-align:left}blockquote{border-left:4px solid var(--accent);margin-left:0;padding-left:1rem}footer{border-top:1px solid #8885;font-size:.9rem}
+  </style>
+</head>
+<body>
+  <header><strong><a href="{{ site.baseurl }}/">Wallet HD Derivation Kit</a></strong><nav><a href="{{ site.baseurl }}/chains/">Chains</a><a href="{{ site.baseurl }}/cli/">CLI</a><a href="{{ site.baseurl }}/security/">Security</a><a href="{{ site.baseurl }}/benchmarks/">Benchmarks</a><a href="https://github.com/devdasx/wallet-hd-derivation-kit">GitHub</a></nav></header>
+  <main>{{ content }}</main>
+  <footer>MIT © ROYO STUDIOS · Offline-only · Not independently audited</footer>
+</body>
+</html>

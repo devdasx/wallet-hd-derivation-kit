@@ -1,0 +1,75 @@
+{
+  "name": "wallet-hd-derivation-kit",
+  "version": "1.0.0",
+  "description": "Offline multi-chain HD wallet derivation for BIP32, BIP44, BIP49, BIP84, BIP86, SLIP10, xpub, ypub, zpub, Ethereum, Solana, TRON, Litecoin, and Dogecoin.",
+  "type": "module",
+  "main": "./javascript/src/index.js",
+  "types": "./javascript/src/index.d.ts",
+  "react-native": "./javascript/src/react-native.js",
+  "exports": {
+    ".": {
+      "types": "./javascript/src/index.d.ts",
+      "import": "./javascript/src/index.js"
+    },
+    "./chains": "./javascript/src/chains.js",
+    "./bip32": "./javascript/src/bip32.js"
+    ,"./react-native": "./javascript/src/react-native.js"
+  },
+  "files": [
+    "javascript/src",
+    "README.md",
+    "LICENSE",
+    "SECURITY.md",
+    "llms.txt"
+  ],
+  "scripts": {
+    "test": "node --test javascript/test/*.test.js",
+    "test:coverage": "node --test --experimental-test-coverage --test-coverage-lines=90 javascript/test/*.test.js",
+    "benchmark": "node scripts/benchmark.mjs",
+    "pack:check": "npm pack --dry-run",
+    "examples": "node examples/javascript/example.mjs && node examples/react-native/smoke-test.mjs",
+    "conformance": "node scripts/conformance.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devdasx/wallet-hd-derivation-kit.git"
+  },
+  "homepage": "https://devdasx.github.io/wallet-hd-derivation-kit/",
+  "bugs": "https://github.com/devdasx/wallet-hd-derivation-kit/issues",
+  "keywords": [
+    "hd-wallet",
+    "bip32",
+    "bip44",
+    "bip49",
+    "bip84",
+    "bip86",
+    "slip10",
+    "slip132",
+    "xpub",
+    "ypub",
+    "zpub",
+    "bitcoin",
+    "ethereum",
+    "solana",
+    "tron",
+    "dogecoin",
+    "litecoin",
+    "react-native",
+    "offline"
+  ],
+  "author": "ROYO STUDIOS <royostudios13@gmail.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@noble/curves": "2.0.1",
+    "@noble/hashes": "2.2.0",
+    "@scure/bip39": "2.0.1"
+  },
+  "devDependencies": {
+    "jsr": "0.14.3",
+    "typedoc": "0.28.20",
+    "typescript": "6.0.3"
+  }
+}

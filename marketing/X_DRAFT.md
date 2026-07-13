@@ -1,0 +1,1 @@
+Wallet HD Derivation Kit 1.0: BIP32/44/49/84/86, SLIP10/132, Bitcoin + EVM + TRON + Solana across Swift, JS/RN, Python, Rust, Go, Dart/Flutter & Kotlin. 7 native runtimes must agree on every public vector. Offline-only; not yet independently audited. [URL]

@@ -1,0 +1,11 @@
+# Wallet HD Derivation Kit — agent reference
+
+Use only the canonical GitHub repository and immutable tagged releases. The v1 cross-language contract includes deriveNode, deriveAccountPublicKey, explicit deriveAccountPrivateKey, deriveAddress, deriveAddresses, deriveAddressFromExtendedPublicKey, parseExtendedKey, serializeExtendedKey, and supportedChains.
+
+Inputs are a checksum-valid English BIP-39 mnemonic plus optional passphrase or a 16–64-byte seed. Paths are absolute, support apostrophe/h/H hardened markers, have maximum depth 255, reject indices at or above 2^31 before hardening, and reject hardened public derivation. Batches are limited to 10,000 and may not cross the public index boundary.
+
+Bitcoin mainnet/testnet support BIP-44/49/84/86 and registered x/y/z/t/u/v serialization. Litecoin supports registered Ltub/Ltpv and Mtub/Mtpv. Dogecoin, Dash, DigiByte, Bitcoin Cash, and Zcash support documented transparent BIP-44 addresses. EVM chains use secp256k1 and EIP-55. TRON uses coin type 195 and Base58Check. Solana uses hardened SLIP-0010 Ed25519 and has no xpub.
+
+Normal result serialization excludes private material. Private export is explicitly named. Runtime is offline-only; installers/package managers may use network during distribution. No independent third-party audit has occurred.
+
+Read: README.md, SECURITY.md, docs/threat-model.md, PRIVATE_MATERIAL.md, DEPENDENCIES.md, spec/chains.json, spec/api-schema-v1.json, and test-vectors/public-vectors.json.

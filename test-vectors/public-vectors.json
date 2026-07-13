@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "mnemonic": "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about",
+    "passphrase": "",
+    "note": "Published BIP-39 test mnemonic; never use it for real funds."
+  },
+  "addresses": [
+    {"chain":"bitcoin","path":"m/84'/0'/0'/0/0","scriptType":"p2wpkh","address":"bc1qcr8te4kr609gcawutmrza0j4xv80jy8z306fyu"},
+    {"chain":"bitcoin-testnet","path":"m/84'/1'/0'/0/0","scriptType":"p2wpkh","address":"tb1q6rz28mcfaxtmd6v789l9rrlrusdprr9pqcpvkl"},
+    {"chain":"litecoin","path":"m/44'/2'/0'/0/0","scriptType":"p2pkh","address":"LUWPbpM43E2p7ZSh8cyTBEkvpHmr3cB8Ez"},
+    {"chain":"dogecoin","path":"m/44'/3'/0'/0/0","scriptType":"p2pkh","address":"DBus3bamQjgJULBJtYXpEzDWQRwF5iwxgC"},
+    {"chain":"dash","path":"m/44'/5'/0'/0/0","scriptType":"p2pkh","address":"XoJA8qE3N2Y3jMLEtZ3vcN42qseZ8LvFf5"},
+    {"chain":"digibyte","path":"m/44'/20'/0'/0/0","scriptType":"p2pkh","address":"DG1KhhBKpsyWXTakHNezaDQ34focsXjN1i"},
+    {"chain":"bitcoin-cash","path":"m/44'/145'/0'/0/0","scriptType":"cashaddr","address":"bitcoincash:qqyx49mu0kkn9ftfj6hje6g2wfer34yfnq5tahq3q6"},
+    {"chain":"zcash-transparent","path":"m/44'/133'/0'/0/0","scriptType":"p2pkh","address":"t1XVXWCvpMgBvUaed4XDqWtgQgJSu1Ghz7F"},
+    {"chain":"ethereum","path":"m/44'/60'/0'/0/0","scriptType":"evm","address":"0x9858EfFD232B4033E47d90003D41EC34EcaEda94"},
+    {"chain":"ethereum-classic","path":"m/44'/61'/0'/0/0","scriptType":"evm","address":"0xFA22515E43658ce56A7682B801e9B5456f511420"},
+    {"chain":"polygon","path":"m/44'/60'/0'/0/0","scriptType":"evm","address":"0x9858EfFD232B4033E47d90003D41EC34EcaEda94"},
+    {"chain":"bsc","path":"m/44'/60'/0'/0/0","scriptType":"evm","address":"0x9858EfFD232B4033E47d90003D41EC34EcaEda94"},
+    {"chain":"avalanche-c","path":"m/44'/60'/0'/0/0","scriptType":"evm","address":"0x9858EfFD232B4033E47d90003D41EC34EcaEda94"},
+    {"chain":"arbitrum","path":"m/44'/60'/0'/0/0","scriptType":"evm","address":"0x9858EfFD232B4033E47d90003D41EC34EcaEda94"},
+    {"chain":"optimism","path":"m/44'/60'/0'/0/0","scriptType":"evm","address":"0x9858EfFD232B4033E47d90003D41EC34EcaEda94"},
+    {"chain":"base","path":"m/44'/60'/0'/0/0","scriptType":"evm","address":"0x9858EfFD232B4033E47d90003D41EC34EcaEda94"},
+    {"chain":"tron","path":"m/44'/195'/0'/0/0","scriptType":"tron","address":"TUEZSdKsoDHQMeZwihtdoBiN46zxhGWYdH"},
+    {"chain":"solana","path":"m/44'/501'/0'/0'","scriptType":"solana","address":"HAgk14JpMQLgt6rVgv7cBQFJWFto5Dqxi472uT3DKpqk"}
+  ],
+  "bitcoin": {
+    "legacy":"1LqBGSKuX5yYUonjxT5qGfpUsXKYYWeabA",
+    "nestedSegwit":"37VucYSaXLCAsxYyAPfbSi9eh4iEcbShgf",
+    "taproot":"bc1p5cyxnuxmeuwuvkwfem96lqzszd02n6xdcjrs20cac6yqjjwudpxqkedrcr",
+    "accountZpub":"zpub6rFR7y4Q2AijBEqTUquhVz398htDFrtymD9xYYfG1m4wAcvPhXNfE3EfH1r1ADqtfSdVCToUG868RvUUkgDKf31mGDtKsAYz2oz2AGutZYs",
+    "accountZprv":"zprvAdG4iTXWBoARxkkzNpNh8r6Qag3irQB8PzEMkAFeTRXxHpbF9z4QgEvBRmfvqWvGp42t42nvgGpNgYSJA9iefm1yYNZKEm7z6qUWCroSQnE"
+  },
+  "bip32Vector1": {
+    "seedHex":"000102030405060708090a0b0c0d0e0f",
+    "path":"m",
+    "xprv":"xprv9s21ZrQH143K3QTDL4LXw2F7HEK3wJUD2nW2nRk4stbPy6cq3jPPqjiChkVvvNKmPGJxWUtg6LnF5kejMRNNU3TGtRBeJgk33yuGBxrMPHi",
+    "xpub":"xpub661MyMwAqRbcFtXgS5sYJABqqG9YLmC4Q1Rdap9gSE8NqtwybGhePY2gZ29ESFjqJoCu1Rupje8YtGqsefD265TMg7usUDFdp6W1EGMcet8"
+  },
+  "invalid": ["m/00", "m/-1", "m/2147483648", "n/0", "m//0"]
+}

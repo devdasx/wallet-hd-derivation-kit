@@ -1,0 +1,24 @@
+name: Search indexing
+
+on:
+  workflow_run:
+    workflows: [Pages]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  indexnow:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - run: |
+          test "$(curl -fsS -o /dev/null -w '%{http_code}' https://devdasx.github.io/wallet-hd-derivation-kit/sitemap.xml)" = 200
+          curl -fsS -X POST 'https://api.indexnow.org/indexnow' \
+            -H 'Content-Type: application/json; charset=utf-8' \
+            --data @- <<'JSON'
+          {"host":"devdasx.github.io","key":"db18e9469117edd033fe2e03d6c08ebe","keyLocation":"https://devdasx.github.io/wallet-hd-derivation-kit/db18e9469117edd033fe2e03d6c08ebe.txt","urlList":["https://devdasx.github.io/wallet-hd-derivation-kit/","https://devdasx.github.io/wallet-hd-derivation-kit/swift/","https://devdasx.github.io/wallet-hd-derivation-kit/javascript/","https://devdasx.github.io/wallet-hd-derivation-kit/python/","https://devdasx.github.io/wallet-hd-derivation-kit/rust/","https://devdasx.github.io/wallet-hd-derivation-kit/go/","https://devdasx.github.io/wallet-hd-derivation-kit/dart/","https://devdasx.github.io/wallet-hd-derivation-kit/kotlin/","https://devdasx.github.io/wallet-hd-derivation-kit/cli/","https://devdasx.github.io/wallet-hd-derivation-kit/security/","https://devdasx.github.io/wallet-hd-derivation-kit/benchmarks/","https://devdasx.github.io/wallet-hd-derivation-kit/comparisons/"]}
+          JSON

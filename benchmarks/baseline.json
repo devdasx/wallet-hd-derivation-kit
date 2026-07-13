@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "policy": "Scheduled smoke tests fail only when a metric is slower than 2x its checked-in baseline.",
+  "metrics": {
+    "account derivation maxMs": 50,
+    "one Bitcoin address maxMs": 50,
+    "1000 Bitcoin addresses maxMs": 30000,
+    "xpub watch-only address maxMs": 10,
+    "extended-key parse maxMs": 2,
+    "one EVM address maxMs": 50,
+    "one Solana address maxMs": 50
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "@devdasx/wallet-hd",
+  "version": "1.0.0",
+  "license": "MIT",
+  "exports": "./javascript/src/index.js",
+  "publish": {
+    "include": [
+      "LICENSE",
+      "README.md",
+      "javascript/src/**/*.js",
+      "javascript/src/**/*.d.ts"
+    ]
+  }
+}

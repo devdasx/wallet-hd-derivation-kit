@@ -1,0 +1,35 @@
+name: Bug report
+description: Report a reproducible derivation, parser, packaging, or documentation defect.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: "Never include a real mnemonic, seed, private key, xprv, or wallet data. Use only published test vectors."
+  - type: input
+    id: version
+    attributes: { label: Version, placeholder: "1.0.0" }
+    validations: { required: true }
+  - type: dropdown
+    id: ecosystem
+    attributes:
+      label: Ecosystem
+      options: [Swift, CocoaPods, JavaScript, React Native, Python, Rust, Go, Dart, Flutter, Kotlin, CLI, Documentation, Release]
+    validations: { required: true }
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction using public test material
+      description: Include the command/code, expected result, and actual result.
+    validations: { required: true }
+  - type: textarea
+    id: environment
+    attributes: { label: Environment, description: "OS, architecture, compiler/runtime, and package manager versions." }
+    validations: { required: true }
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety confirmation
+      options:
+        - label: I used only public test material and included no wallet secrets.
+          required: true

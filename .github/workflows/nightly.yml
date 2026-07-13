@@ -1,0 +1,44 @@
+name: Nightly fuzz and benchmarks
+
+on:
+  schedule:
+    - cron: "41 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  go-fuzz:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+        with: { go-version: "1.25.x" }
+      - run: go test -run '^$' -fuzz FuzzDerivationPath -fuzztime 10m
+      - run: go test -run '^$' -fuzz FuzzExtendedKeyParser -fuzztime 10m
+
+  rust-fuzz:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30 # nightly
+        with: { toolchain: nightly }
+      - run: cargo install cargo-fuzz --locked --version 0.13.2
+      - run: cargo fuzz run parse_path -- -max_total_time=600
+      - run: cargo fuzz run parse_extended_key -- -max_total_time=600
+      - run: cargo fuzz run derive_address -- -max_total_time=600
+      - run: PROPTEST_CASES=100000 cargo test --locked
+
+  benchmarks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with: { node-version: 20, cache: npm }
+      - run: npm ci
+      - run: npm run benchmark -- --check | tee benchmark.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: benchmark-${{ github.run_id }}
+          path: benchmark.json

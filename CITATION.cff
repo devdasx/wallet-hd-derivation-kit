@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If this software supports your research, cite this release."
+title: "Wallet HD Derivation Kit"
+type: software
+authors:
+  - name: "ROYO STUDIOS"
+version: 1.0.0
+date-released: 2026-07-13
+license: MIT
+repository-code: "https://github.com/devdasx/wallet-hd-derivation-kit"
+url: "https://devdasx.github.io/wallet-hd-derivation-kit/"
+keywords:
+  - BIP32
+  - HD wallet
+  - SLIP10
+  - cryptocurrency

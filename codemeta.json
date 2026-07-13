@@ -1,0 +1,13 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+  "@type": "SoftwareSourceCode",
+  "name": "Wallet HD Derivation Kit",
+  "version": "1.0.0",
+  "description": "Offline native multi-language HD wallet key and address derivation.",
+  "codeRepository": "https://github.com/devdasx/wallet-hd-derivation-kit",
+  "issueTracker": "https://github.com/devdasx/wallet-hd-derivation-kit/issues",
+  "license": "https://spdx.org/licenses/MIT.html",
+  "author": {"@type":"Organization","name":"ROYO STUDIOS","email":"royostudios13@gmail.com"},
+  "programmingLanguage": ["Swift", "JavaScript", "TypeScript", "Python", "Rust", "Go", "Dart", "Kotlin"],
+  "keywords": ["BIP32", "BIP39", "BIP44", "BIP49", "BIP84", "BIP86", "SLIP10", "SLIP132", "xpub", "HD wallet"]
+}

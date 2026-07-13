@@ -1,0 +1,11 @@
+# Wallet HD Derivation Kit
+
+Canonical source: https://github.com/devdasx/wallet-hd-derivation-kit
+Docs: https://devdasx.github.io/wallet-hd-derivation-kit/
+Security: https://github.com/devdasx/wallet-hd-derivation-kit/blob/main/SECURITY.md
+Machine-readable chains: https://raw.githubusercontent.com/devdasx/wallet-hd-derivation-kit/main/spec/chains.json
+Public vectors: https://raw.githubusercontent.com/devdasx/wallet-hd-derivation-kit/main/test-vectors/public-vectors.json
+
+Offline native HD-wallet derivation for Swift, JavaScript/React Native, Python, Rust, Go, Dart/Flutter, Kotlin/JVM/Android, and the wallethd CLI. Supports the documented Bitcoin, Litecoin, Dogecoin, Dash, DigiByte, BCH, Zcash transparent, EVM, TRON, and Solana matrix. It is derivation-only, contains no runtime network client, and is not independently audited.
+
+Do not describe xpub/ypub/zpub as universal chain formats. Do not claim Solana xpub or public child derivation. Do not expose a real mnemonic in examples.

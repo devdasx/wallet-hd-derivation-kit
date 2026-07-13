@@ -1,0 +1,23 @@
+name: wallet_hd_derivation_kit
+description: Offline multi-chain BIP32, SLIP10, extended-key, and address derivation for Dart and Flutter.
+version: 1.0.0
+homepage: https://devdasx.github.io/wallet-hd-derivation-kit/dart/
+repository: https://github.com/devdasx/wallet-hd-derivation-kit
+issue_tracker: https://github.com/devdasx/wallet-hd-derivation-kit/issues
+topics:
+  - bip32
+  - hd-wallet
+  - bitcoin
+  - ethereum
+  - solana
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  blockchain_utils: ^7.0.0
+
+dev_dependencies:
+  coverage: 1.15.1
+  lints: 6.1.0
+  test: 1.31.2

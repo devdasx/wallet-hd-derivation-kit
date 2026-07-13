@@ -1,0 +1,10 @@
+title: Wallet HD Derivation Kit
+description: Offline multi-language BIP32, BIP44, BIP49, BIP84, BIP86, SLIP10 and extended-key derivation.
+url: https://devdasx.github.io
+baseurl: /wallet-hd-derivation-kit
+repository: devdasx/wallet-hd-derivation-kit
+author: ROYO STUDIOS
+license: MIT
+permalink: pretty
+markdown: kramdown
+exclude: [node_modules, vendor]

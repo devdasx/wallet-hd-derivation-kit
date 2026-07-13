@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schemaVersion": 1,
+  "canonicalRepository": "https://github.com/devdasx/wallet-hd-derivation-kit",
+  "chains": [
+    {"id":"bitcoin","name":"Bitcoin","symbol":"BTC","coinType":0,"curve":"secp256k1","defaultPath":"m/84'/0'/0'/0/0","defaultScriptType":"p2wpkh","extendedKeyFormats":["xpub","ypub","zpub"]},
+    {"id":"bitcoin-testnet","name":"Bitcoin Testnet","symbol":"TBTC","coinType":1,"curve":"secp256k1","defaultPath":"m/84'/1'/0'/0/0","defaultScriptType":"p2wpkh","extendedKeyFormats":["tpub","upub","vpub"]},
+    {"id":"litecoin","name":"Litecoin","symbol":"LTC","coinType":2,"curve":"secp256k1","defaultPath":"m/44'/2'/0'/0/0","defaultScriptType":"p2pkh","extendedKeyFormats":["Ltub","Mtub"]},
+    {"id":"dogecoin","name":"Dogecoin","symbol":"DOGE","coinType":3,"curve":"secp256k1","defaultPath":"m/44'/3'/0'/0/0","defaultScriptType":"p2pkh","extendedKeyFormats":["xpub"]},
+    {"id":"dash","name":"Dash","symbol":"DASH","coinType":5,"curve":"secp256k1","defaultPath":"m/44'/5'/0'/0/0","defaultScriptType":"p2pkh","extendedKeyFormats":["xpub"]},
+    {"id":"digibyte","name":"DigiByte","symbol":"DGB","coinType":20,"curve":"secp256k1","defaultPath":"m/44'/20'/0'/0/0","defaultScriptType":"p2pkh","extendedKeyFormats":["xpub"]},
+    {"id":"bitcoin-cash","name":"Bitcoin Cash","symbol":"BCH","coinType":145,"curve":"secp256k1","defaultPath":"m/44'/145'/0'/0/0","defaultScriptType":"cashaddr","extendedKeyFormats":["xpub"]},
+    {"id":"zcash-transparent","name":"Zcash Transparent","symbol":"ZEC","coinType":133,"curve":"secp256k1","defaultPath":"m/44'/133'/0'/0/0","defaultScriptType":"p2pkh","extendedKeyFormats":["xpub"]},
+    {"id":"ethereum","name":"Ethereum","symbol":"ETH","coinType":60,"curve":"secp256k1","defaultPath":"m/44'/60'/0'/0/0","defaultScriptType":"evm","extendedKeyFormats":[]},
+    {"id":"ethereum-classic","name":"Ethereum Classic","symbol":"ETC","coinType":61,"curve":"secp256k1","defaultPath":"m/44'/61'/0'/0/0","defaultScriptType":"evm","extendedKeyFormats":[]},
+    {"id":"polygon","name":"Polygon","symbol":"POL","coinType":60,"curve":"secp256k1","defaultPath":"m/44'/60'/0'/0/0","defaultScriptType":"evm","extendedKeyFormats":[]},
+    {"id":"bsc","name":"BNB Smart Chain","symbol":"BNB","coinType":60,"curve":"secp256k1","defaultPath":"m/44'/60'/0'/0/0","defaultScriptType":"evm","extendedKeyFormats":[]},
+    {"id":"avalanche-c","name":"Avalanche C-Chain","symbol":"AVAX","coinType":60,"curve":"secp256k1","defaultPath":"m/44'/60'/0'/0/0","defaultScriptType":"evm","extendedKeyFormats":[]},
+    {"id":"arbitrum","name":"Arbitrum","symbol":"ARB","coinType":60,"curve":"secp256k1","defaultPath":"m/44'/60'/0'/0/0","defaultScriptType":"evm","extendedKeyFormats":[]},
+    {"id":"optimism","name":"Optimism","symbol":"OP","coinType":60,"curve":"secp256k1","defaultPath":"m/44'/60'/0'/0/0","defaultScriptType":"evm","extendedKeyFormats":[]},
+    {"id":"base","name":"Base","symbol":"ETH","coinType":60,"curve":"secp256k1","defaultPath":"m/44'/60'/0'/0/0","defaultScriptType":"evm","extendedKeyFormats":[]},
+    {"id":"tron","name":"TRON","symbol":"TRX","coinType":195,"curve":"secp256k1","defaultPath":"m/44'/195'/0'/0/0","defaultScriptType":"tron","extendedKeyFormats":[]},
+    {"id":"solana","name":"Solana","symbol":"SOL","coinType":501,"curve":"ed25519","defaultPath":"m/44'/501'/0'/0'","defaultScriptType":"solana","extendedKeyFormats":[]}
+  ]
+}

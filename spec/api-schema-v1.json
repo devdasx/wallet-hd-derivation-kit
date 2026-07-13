@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devdasx.github.io/wallet-hd-derivation-kit/schema/v1.json",
+  "title": "Wallet HD Derivation Kit result",
+  "oneOf": [
+    {"$ref":"#/$defs/address"},
+    {"$ref":"#/$defs/accountPublicKey"},
+    {"$ref":"#/$defs/node"}
+  ],
+  "$defs": {
+    "base": {"type":"object","required":["schemaVersion","curve","path"],"properties":{"schemaVersion":{"const":1},"curve":{"enum":["secp256k1","ed25519"]},"path":{"type":"string","pattern":"^[mM](?:/.*)?$"}}},
+    "node": {"allOf":[{"$ref":"#/$defs/base"},{"type":"object","required":["publicKeyHex","chainCodeHex","depth","childNumber"],"properties":{"publicKeyHex":{"type":"string","pattern":"^[0-9a-f]+$"},"chainCodeHex":{"type":"string","pattern":"^[0-9a-f]{64}$"},"depth":{"type":"integer","minimum":0,"maximum":255},"childNumber":{"type":"integer","minimum":0,"maximum":4294967295}}}]},
+    "address": {"allOf":[{"$ref":"#/$defs/base"},{"type":"object","required":["chain","address","account","change","index","scriptType","publicKeyHex"],"properties":{"chain":{"type":"string"},"address":{"type":"string","minLength":1},"account":{"type":"integer","minimum":0,"maximum":2147483647},"change":{"type":"integer","minimum":0,"maximum":2147483647},"index":{"type":"integer","minimum":0,"maximum":2147483647},"scriptType":{"type":"string"},"publicKeyHex":{"type":"string","pattern":"^[0-9a-f]+$"}}}]},
+    "accountPublicKey": {"allOf":[{"$ref":"#/$defs/base"},{"type":"object","required":["chain","format","extendedPublicKey","publicKeyHex"],"properties":{"chain":{"type":"string"},"format":{"type":"string"},"extendedPublicKey":{"type":"string"},"publicKeyHex":{"type":"string","pattern":"^[0-9a-f]+$"}}}]}
+  }
+}

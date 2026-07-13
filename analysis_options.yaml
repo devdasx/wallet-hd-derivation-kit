@@ -1,0 +1,9 @@
+include: package:lints/recommended.yaml
+
+analyzer:
+  exclude:
+    - examples/flutter/**
+    - target/**
+    - .build/**
+  errors:
+    avoid_dynamic_calls: error

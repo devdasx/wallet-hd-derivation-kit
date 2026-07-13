@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Private security report
+    url: https://github.com/devdasx/wallet-hd-derivation-kit/security/advisories/new
+    about: Report suspected vulnerabilities privately and never include real wallet secrets.

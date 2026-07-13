@@ -1,0 +1,312 @@
+name: Release and publish
+
+on:
+  push:
+    tags: ["v[0-9]+.[0-9]+.[0-9]+"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing signed vX.Y.Z tag to publish
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+env:
+  RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with: { ref: "${{ env.RELEASE_TAG }}", fetch-depth: 0 }
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with: { node-version: 24, cache: npm }
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+        with: { go-version: "1.25.x", cache: true }
+      - uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30 # stable
+        with: { toolchain: "1.92.0" }
+      - id: version
+        run: echo "version=${RELEASE_TAG#v}" >> "$GITHUB_OUTPUT"
+      - run: test "$(git cat-file -t "refs/tags/$RELEASE_TAG")" = tag
+      - run: git cat-file -p "refs/tags/$RELEASE_TAG" | grep -E 'BEGIN (PGP|SSH) SIGNATURE'
+      - run: RELEASE_VERSION="${RELEASE_TAG#v}" node scripts/check-versions.mjs
+      - run: npm ci && npm test
+      - run: cargo test --locked --all-targets
+      - run: go test -race ./...
+      - run: cargo run --quiet --bin wallethd -- vectors verify
+
+  binaries-unix:
+    needs: verify
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-15
+            os: macos
+            arch: arm64
+          - runner: macos-15-intel
+            os: macos
+            arch: x86_64
+          - runner: ubuntu-latest
+            os: linux
+            arch: x86_64
+          - runner: ubuntu-24.04-arm
+            os: linux
+            arch: arm64
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with: { ref: "${{ env.RELEASE_TAG }}" }
+      - uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30 # stable
+        with: { toolchain: "1.92.0" }
+      - run: cargo build --locked --release --bin wallethd
+      - run: target/release/wallethd vectors verify
+      - run: strip target/release/wallethd || true
+      - run: tar -czf "wallethd-${RELEASE_TAG}-${{ matrix.os }}-${{ matrix.arch }}.tar.gz" -C target/release wallethd
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: wallethd-${{ matrix.os }}-${{ matrix.arch }}
+          path: wallethd-*.tar.gz
+          if-no-files-found: error
+
+  binary-windows:
+    needs: verify
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with: { ref: "${{ env.RELEASE_TAG }}" }
+      - uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30 # stable
+        with: { toolchain: "1.92.0" }
+      - run: cargo build --locked --release --bin wallethd
+      - shell: pwsh
+        run: target/release/wallethd.exe vectors verify
+      - shell: pwsh
+        run: Compress-Archive target/release/wallethd.exe "wallethd-$env:RELEASE_TAG-windows-x86_64.zip"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: wallethd-windows-x86_64
+          path: wallethd-*.zip
+          if-no-files-found: error
+
+  github-release:
+    needs: [verify, binaries-unix, binary-windows]
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with: { ref: "${{ env.RELEASE_TAG }}" }
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with: { path: release-assets, merge-multiple: true }
+      - run: cd release-assets && sha256sum wallethd-* > SHA256SUMS
+      - uses: anchore/sbom-action@e22c389904149dbc22b58101806040fa8d37a610 # v0.24.0
+        with:
+          path: .
+          format: spdx-json
+          output-file: release-assets/sbom.spdx.json
+      - uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+      - run: |
+          for file in release-assets/wallethd-* release-assets/SHA256SUMS release-assets/sbom.spdx.json; do
+            cosign sign-blob --yes --bundle "${file}.sigstore.json" "$file"
+          done
+      - uses: actions/attest-build-provenance@96b4a1ef7235a096b17240c259729fdd70c83d45 # v2
+        with: { subject-path: "release-assets/*" }
+      - env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          if ! gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release create "$RELEASE_TAG" --verify-tag --title "$RELEASE_TAG" --notes-file <(sed -n '/^## \[1.0.0\]/,/^\[1.0.0\]/p' CHANGELOG.md)
+          fi
+          existing="$(gh release view "$RELEASE_TAG" --json assets --jq '.assets[].name')"
+          for file in release-assets/*; do
+            name="$(basename "$file")"
+            printf '%s\n' "$existing" | grep -Fxq "$name" || gh release upload "$RELEASE_TAG" "$file"
+          done
+
+  npm:
+    needs: verify
+    runs-on: ubuntu-latest
+    environment: release
+    permissions: { contents: read, id-token: write }
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with: { ref: "${{ env.RELEASE_TAG }}" }
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with: { node-version: 24, registry-url: "https://registry.npmjs.org" }
+      - run: npm ci && npm test
+      - id: exists
+        run: npm view "wallet-hd-derivation-kit@${RELEASE_TAG#v}" version >/dev/null 2>&1 && echo exists=true >> "$GITHUB_OUTPUT" || true
+      - if: steps.exists.outputs.exists != 'true'
+        run: npm publish --access public
+
+  github-npm:
+    needs: verify
+    runs-on: ubuntu-latest
+    environment: release
+    permissions: { contents: read, packages: write }
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with: { ref: "${{ env.RELEASE_TAG }}" }
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with: { node-version: 24, registry-url: "https://npm.pkg.github.com", scope: "@devdasx" }
+      - run: npm ci && npm pkg set name=@devdasx/wallet-hd-derivation-kit
+      - id: exists
+        env: { NODE_AUTH_TOKEN: "${{ github.token }}" }
+        run: npm view "@devdasx/wallet-hd-derivation-kit@${RELEASE_TAG#v}" version --registry=https://npm.pkg.github.com >/dev/null 2>&1 && echo exists=true >> "$GITHUB_OUTPUT" || true
+      - if: steps.exists.outputs.exists != 'true'
+        env: { NODE_AUTH_TOKEN: "${{ github.token }}" }
+        run: npm publish --access public
+
+  jsr:
+    needs: verify
+    runs-on: ubuntu-latest
+    environment: release
+    permissions: { contents: read, id-token: write }
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with: { ref: "${{ env.RELEASE_TAG }}" }
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with: { node-version: 24 }
+      - run: npm ci
+      - id: exists
+        run: curl -fsS "https://jsr.io/@devdasx/wallet-hd/meta.json" | grep -Fq '"'"${RELEASE_TAG#v}"'"' && echo exists=true >> "$GITHUB_OUTPUT" || true
+      - if: steps.exists.outputs.exists != 'true'
+        run: npx jsr publish --allow-dirty
+
+  pypi:
+    needs: verify
+    runs-on: ubuntu-latest
+    environment: release
+    permissions: { contents: read, id-token: write }
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with: { ref: "${{ env.RELEASE_TAG }}" }
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with: { python-version: "3.13" }
+      - run: python -m pip install build==1.3.0 && python -m build
+      - id: exists
+        run: curl -fsS "https://pypi.org/pypi/wallet-hd-derivation-kit/${RELEASE_TAG#v}/json" >/dev/null && echo exists=true >> "$GITHUB_OUTPUT" || true
+      - if: steps.exists.outputs.exists != 'true'
+        uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b # release/v1
+
+  crates:
+    needs: verify
+    runs-on: ubuntu-latest
+    environment: release
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with: { ref: "${{ env.RELEASE_TAG }}" }
+      - uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30 # stable
+      - id: exists
+        run: curl -fsS "https://crates.io/api/v1/crates/wallet-hd-derivation-kit/${RELEASE_TAG#v}" >/dev/null && echo exists=true >> "$GITHUB_OUTPUT" || true
+      - if: steps.exists.outputs.exists != 'true'
+        env: { CARGO_REGISTRY_TOKEN: "${{ secrets.CRATES_IO_TOKEN }}" }
+        run: cargo publish --locked
+
+  pubdev:
+    needs: verify
+    runs-on: ubuntu-latest
+    environment: release
+    permissions: { contents: read, id-token: write }
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with: { ref: "${{ env.RELEASE_TAG }}" }
+      - uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260 # v1
+      - run: dart pub get && dart analyze && dart test
+      - id: exists
+        run: curl -fsS "https://pub.dev/api/packages/wallet_hd_derivation_kit" | grep -Fq '"version":"'"${RELEASE_TAG#v}"'"' && echo exists=true >> "$GITHUB_OUTPUT" || true
+      - if: steps.exists.outputs.exists != 'true'
+        run: dart pub publish --force
+
+  cocoapods:
+    needs: verify
+    runs-on: macos-15
+    environment: release
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with: { ref: "${{ env.RELEASE_TAG }}" }
+      - uses: ruby/setup-ruby@d45b1a4e94b71acab930e56e79c6aa188764e7f9
+        with: { ruby-version: "3.3" }
+      - run: gem install cocoapods --no-document
+      - env: { COCOAPODS_TRUNK_TOKEN: "${{ secrets.COCOAPODS_TRUNK_TOKEN }}" }
+        run: pod trunk push WalletHDDerivationKit.podspec --allow-warnings || pod trunk info WalletHDDerivationKit | grep -F "${RELEASE_TAG#v}"
+
+  maven-central:
+    needs: verify
+    runs-on: ubuntu-latest
+    environment: release
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with: { ref: "${{ env.RELEASE_TAG }}" }
+      - uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4
+        with: { distribution: temurin, java-version: "17" }
+      - uses: gradle/actions/setup-gradle@0b6dd653ba04f4f93bf581ec31e66cbd7dcb644d # v4
+      - id: exists
+        run: curl -fsS "https://repo1.maven.org/maven2/io/github/devdasx/wallet-hd-derivation-kit/${RELEASE_TAG#v}/wallet-hd-derivation-kit-${RELEASE_TAG#v}.pom" >/dev/null && echo exists=true >> "$GITHUB_OUTPUT" || true
+      - if: steps.exists.outputs.exists != 'true'
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: "${{ secrets.MAVEN_CENTRAL_USERNAME }}"
+          ORG_GRADLE_PROJECT_mavenCentralPassword: "${{ secrets.MAVEN_CENTRAL_PASSWORD }}"
+          ORG_GRADLE_PROJECT_signingInMemoryKey: "${{ secrets.MAVEN_SIGNING_KEY }}"
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: "${{ secrets.MAVEN_SIGNING_PASSWORD }}"
+        run: gradle --no-daemon publishToMavenCentral
+
+  container:
+    needs: verify
+    runs-on: ubuntu-latest
+    environment: release
+    permissions: { contents: read, packages: write, id-token: write }
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with: { ref: "${{ env.RELEASE_TAG }}" }
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
+      - uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
+        with: { registry: ghcr.io, username: "${{ github.actor }}", password: "${{ github.token }}" }
+      - id: exists
+        run: docker buildx imagetools inspect "ghcr.io/devdasx/wallethd:${{ needs.verify.outputs.version }}" >/dev/null 2>&1 && echo exists=true >> "$GITHUB_OUTPUT" || true
+      - if: steps.exists.outputs.exists != 'true'
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
+        with:
+          context: .
+          push: true
+          platforms: linux/amd64,linux/arm64
+          provenance: mode=max
+          sbom: true
+          tags: |
+            ghcr.io/devdasx/wallethd:${{ needs.verify.outputs.version }}
+            ghcr.io/devdasx/wallethd:latest
+
+  homebrew:
+    needs: [verify, github-release]
+    runs-on: ubuntu-latest
+    environment: release
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with: { ref: "${{ env.RELEASE_TAG }}" }
+      - env: { GH_TOKEN: "${{ secrets.HOMEBREW_TAP_TOKEN }}" }
+        run: |
+          git clone "https://x-access-token:${GH_TOKEN}@github.com/devdasx/homebrew-crypto-kits.git" tap
+          cp Formula/wallethd.rb tap/Formula/wallethd.rb
+          archive="$(mktemp)"
+          curl -fsSL "https://github.com/devdasx/wallet-hd-derivation-kit/archive/refs/tags/${RELEASE_TAG}.tar.gz" -o "$archive"
+          sha="$(sha256sum "$archive" | awk '{print $1}')"
+          sed -i "/^  url /a\\  sha256 \"$sha\"" tap/Formula/wallethd.rb
+          cd tap
+          git config user.name github-actions
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add Formula/wallethd.rb
+          git diff --cached --quiet || { git commit -m "wallethd ${RELEASE_TAG#v}"; git push; }
+
+  discovery-refresh:
+    needs: [verify, github-release]
+    runs-on: ubuntu-latest
+    steps:
+      - run: curl -fsS "https://proxy.golang.org/github.com/devdasx/wallet-hd-derivation-kit/@v/${RELEASE_TAG}.info" >/dev/null
+      - run: curl -fsS "https://jitpack.io/api/builds/com.github.devdasx/wallet-hd-derivation-kit/${RELEASE_TAG}" >/dev/null || true

@@ -1,0 +1,33 @@
+[package]
+name = "wallet-hd-derivation-kit-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "=0.4.13"
+wallet-hd-derivation-kit = { path = ".." }
+
+[[bin]]
+name = "parse_path"
+path = "fuzz_targets/parse_path.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "parse_extended_key"
+path = "fuzz_targets/parse_extended_key.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "derive_address"
+path = "fuzz_targets/derive_address.rs"
+test = false
+doc = false
+bench = false
