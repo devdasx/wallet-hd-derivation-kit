@@ -23,7 +23,7 @@ dependencies {
         exclude(group = "org.bouncycastle", module = "bcprov-jdk15to18")
     }
     testImplementation(kotlin("test"))
-    testImplementation("org.junit.jupiter:junit-jupiter:5.14.3")
+    testImplementation("org.junit.jupiter:junit-jupiter:6.1.2")
 }
 
 kotlin {
