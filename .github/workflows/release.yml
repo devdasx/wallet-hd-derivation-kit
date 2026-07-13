@@ -18,6 +18,7 @@ env:
 
 jobs:
   verify:
+    if: inputs.tag != 'cocoapods-owner-migration'
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.version.outputs.version }}
@@ -39,6 +40,17 @@ jobs:
       - run: cargo test --locked --all-targets
       - run: go test -race ./...
       - run: cargo run --quiet --bin wallethd -- vectors verify
+
+  cocoapods-owner-migration:
+    if: github.event_name == 'workflow_dispatch' && inputs.tag == 'cocoapods-owner-migration'
+    runs-on: ubuntu-latest
+    environment: release
+    steps:
+      - uses: ruby/setup-ruby@d45b1a4e94b71acab930e56e79c6aa188764e7f9
+        with: { ruby-version: "3.3" }
+      - run: gem install cocoapods --no-document
+      - env: { COCOAPODS_TRUNK_TOKEN: "${{ secrets.COCOAPODS_TRUNK_TOKEN }}" }
+        run: pod trunk add-owner WalletHDDerivationKit devdas98x@gmail.com
 
   binaries-unix:
     needs: verify
