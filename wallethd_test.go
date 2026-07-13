@@ -6,7 +6,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/btcsuite/btcd/btcutil/base58"
+	"github.com/mr-tron/base58/base58"
 )
 
 type officialBIP32Vectors struct {
@@ -248,7 +248,10 @@ func TestCompletePublicContractAndErrorBoundaries(t *testing.T) {
 }
 
 func base58DecodeForTest(value string) []byte {
-	decoded := base58.Decode(value)
+	decoded, err := base58.Decode(value)
+	if err != nil {
+		panic(err)
+	}
 	return append([]byte(nil), decoded[:78]...)
 }
 

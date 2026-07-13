@@ -18,10 +18,10 @@ import (
 	"unicode"
 
 	"github.com/btcsuite/btcd/btcec/v2"
-	"github.com/btcsuite/btcd/btcutil/base58"
-	bip39 "github.com/tyler-smith/go-bip39"
-	"golang.org/x/crypto/ripemd160"
-	"golang.org/x/crypto/sha3"
+	"github.com/decred/dcrd/crypto/ripemd160"
+	bip39 "github.com/devdasx/bip39-mnemonic-kit/v2/go/bip39"
+	keccak "github.com/filecoin-project/go-keccak"
+	"github.com/mr-tron/base58/base58"
 	"golang.org/x/text/unicode/norm"
 )
 
@@ -56,10 +56,14 @@ func SeedSource(seed []byte) Source {
 func (s Source) seedBytes() ([]byte, error) {
 	if s.Mnemonic != "" {
 		words := norm.NFKD.String(strings.Join(strings.Fields(s.Mnemonic), " "))
-		if !bip39.IsMnemonicValid(words) {
+		if !bip39.Validate(words) {
 			return nil, ErrInvalidMnemonic
 		}
-		return bip39.NewSeed(words, norm.NFKD.String(s.Passphrase)), nil
+		seed, err := bip39.Seed(words, norm.NFKD.String(s.Passphrase))
+		if err != nil {
+			return nil, ErrInvalidMnemonic
+		}
+		return seed, nil
 	}
 	if len(s.Seed) < 16 || len(s.Seed) > 64 {
 		return nil, ErrInvalidSeed
@@ -558,8 +562,8 @@ type ParsedExtendedKey struct {
 }
 
 func ParseExtendedKey(value string) (ParsedExtendedKey, error) {
-	decoded := base58.Decode(value)
-	if len(decoded) != 82 || !hmac.Equal(decoded[78:], doubleSHA(decoded[:78])[:4]) {
+	decoded, err := base58.Decode(value)
+	if err != nil || len(decoded) != 82 || !hmac.Equal(decoded[78:], doubleSHA(decoded[:78])[:4]) {
 		return ParsedExtendedKey{}, ErrInvalidExtended
 	}
 	payload := decoded[:78]
@@ -758,7 +762,7 @@ func rawEVMAddress(public []byte) ([]byte, error) {
 		return nil, ErrInvalidKey
 	}
 	uncompressed := pub.SerializeUncompressed()
-	hash := sha3.NewLegacyKeccak256()
+	hash := keccak.NewLegacyKeccak256()
 	hash.Write(uncompressed[1:])
 	return hash.Sum(nil)[12:], nil
 }
@@ -769,7 +773,7 @@ func evmAddress(public []byte) (string, error) {
 		return "", err
 	}
 	lower := hex.EncodeToString(raw)
-	hash := sha3.NewLegacyKeccak256()
+	hash := keccak.NewLegacyKeccak256()
 	hash.Write([]byte(lower))
 	checksum := hex.EncodeToString(hash.Sum(nil))
 	result := []byte("0x" + lower)
