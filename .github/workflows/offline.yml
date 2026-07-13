@@ -25,14 +25,18 @@ jobs:
         with: { distribution: temurin, java-version: "17" }
       - uses: gradle/actions/setup-gradle@0b6dd653ba04f4f93bf581ec31e66cbd7dcb644d # v4
       - run: npm ci && python -m pip install -e . && go mod download && dart pub get && gradle --no-daemon classes
+      - name: Build native conformance runners before disabling network access
+        run: |
+          go build -o /tmp/wallethd-go-conformance ./cmd/conformance
+          dart compile exe tool/conformance.dart -o /tmp/wallethd-dart-conformance
       - run: cargo build --locked --release --bin wallethd
       - run: docker build -t wallethd-offline .
       - run: docker run --rm --network none wallethd-offline vectors verify
       - run: sudo unshare --net -- node javascript/test/conformance-runner.mjs
       - run: sudo unshare --net -- env PYTHONPATH="$PWD/python" "$(command -v python)" python/tests/conformance_runner.py
-      - run: sudo unshare --net -- go run ./cmd/conformance
-      - run: sudo unshare --net -- dart run tool/conformance.dart
-      - run: sudo unshare --net -- gradle --offline --quiet conformance
+      - run: sudo unshare --net -- /tmp/wallethd-go-conformance
+      - run: sudo unshare --net -- /tmp/wallethd-dart-conformance
+      - run: sudo unshare --net -- env HOME="$HOME" GRADLE_USER_HOME="$GRADLE_USER_HOME" PATH="$PATH" "$(command -v gradle)" --offline --quiet conformance
 
   swift-no-network:
     runs-on: macos-15
