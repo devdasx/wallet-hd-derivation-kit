@@ -63,7 +63,7 @@
     "node": ">=20"
   },
   "dependencies": {
-    "@noble/curves": "2.0.1",
+    "@noble/curves": "2.2.0",
     "@noble/hashes": "2.2.0",
     "@scure/bip39": "2.0.1"
   },
