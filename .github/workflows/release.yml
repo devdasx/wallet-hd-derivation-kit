@@ -247,7 +247,7 @@ jobs:
         with: { ref: "${{ env.RELEASE_TAG }}" }
       - uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4
         with: { distribution: temurin, java-version: "17" }
-      - uses: gradle/actions/setup-gradle@0b6dd653ba04f4f93bf581ec31e66cbd7dcb644d # v4
+      - uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4
       - id: exists
         run: curl -fsS "https://repo1.maven.org/maven2/io/github/devdasx/wallet-hd-derivation-kit/${RELEASE_TAG#v}/wallet-hd-derivation-kit-${RELEASE_TAG#v}.pom" >/dev/null && echo exists=true >> "$GITHUB_OUTPUT" || true
       - if: steps.exists.outputs.exists != 'true'
