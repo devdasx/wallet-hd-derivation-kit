@@ -3,5 +3,29 @@ layout: null
 ---
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-{% assign pages = site.pages | sort: "url" %}{% for page in pages %}{% if page.url and page.url != "/sitemap.xml" %}<url><loc>{{ site.url }}{{ site.baseurl }}{{ page.url }}</loc></url>{% endif %}{% endfor %}
+  <url><loc>{{ site.url }}{{ site.baseurl }}/</loc></url>
+  <url><loc>{{ site.url }}{{ site.baseurl }}/swift/</loc></url>
+  <url><loc>{{ site.url }}{{ site.baseurl }}/javascript/</loc></url>
+  <url><loc>{{ site.url }}{{ site.baseurl }}/react-native/</loc></url>
+  <url><loc>{{ site.url }}{{ site.baseurl }}/python/</loc></url>
+  <url><loc>{{ site.url }}{{ site.baseurl }}/rust/</loc></url>
+  <url><loc>{{ site.url }}{{ site.baseurl }}/go/</loc></url>
+  <url><loc>{{ site.url }}{{ site.baseurl }}/dart/</loc></url>
+  <url><loc>{{ site.url }}{{ site.baseurl }}/flutter/</loc></url>
+  <url><loc>{{ site.url }}{{ site.baseurl }}/kotlin/</loc></url>
+  <url><loc>{{ site.url }}{{ site.baseurl }}/cli/</loc></url>
+  <url><loc>{{ site.url }}{{ site.baseurl }}/chains/</loc></url>
+  <url><loc>{{ site.url }}{{ site.baseurl }}/security/</loc></url>
+  <url><loc>{{ site.url }}{{ site.baseurl }}/threat-model/</loc></url>
+  <url><loc>{{ site.url }}{{ site.baseurl }}/test-vectors/</loc></url>
+  <url><loc>{{ site.url }}{{ site.baseurl }}/benchmarks/</loc></url>
+  <url><loc>{{ site.url }}{{ site.baseurl }}/comparisons/</loc></url>
+  <url><loc>{{ site.url }}{{ site.baseurl }}/migration/</loc></url>
+  <url><loc>{{ site.url }}{{ site.baseurl }}/launch/</loc></url>
+  <url><loc>{{ site.url }}{{ site.baseurl }}/api/swift/</loc></url>
+  <url><loc>{{ site.url }}{{ site.baseurl }}/api/javascript/</loc></url>
+  <url><loc>{{ site.url }}{{ site.baseurl }}/api/python/</loc></url>
+  <url><loc>{{ site.url }}{{ site.baseurl }}/api/rust/wallet_hd_derivation_kit/</loc></url>
+  <url><loc>{{ site.url }}{{ site.baseurl }}/api/dart/</loc></url>
+  <url><loc>{{ site.url }}{{ site.baseurl }}/api/kotlin/</loc></url>
 </urlset>
