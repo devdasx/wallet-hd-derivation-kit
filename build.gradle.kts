@@ -84,6 +84,12 @@ tasks.register<JavaExec>("conformance") {
     mainClass.set("io.github.devdasx.wallethd.ConformanceKt")
 }
 
+tasks.register<Copy>("prepareOfflineConformance") {
+    dependsOn(tasks.classes)
+    from(configurations.runtimeClasspath)
+    into(layout.buildDirectory.dir("offline-conformance/lib"))
+}
+
 tasks.matching { it.name == "generateMetadataFileForMavenPublication" }.configureEach {
     dependsOn("dokkaJavadocJar")
 }

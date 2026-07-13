@@ -24,7 +24,7 @@ jobs:
       - uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4
         with: { distribution: temurin, java-version: "17" }
       - uses: gradle/actions/setup-gradle@0b6dd653ba04f4f93bf581ec31e66cbd7dcb644d # v4
-      - run: npm ci && python -m pip install -e . && go mod download && dart pub get && gradle --no-daemon classes
+      - run: npm ci && python -m pip install -e . && go mod download && dart pub get && gradle --no-daemon classes prepareOfflineConformance
       - name: Build native conformance runners before disabling network access
         run: |
           go build -o /tmp/wallethd-go-conformance ./cmd/conformance
@@ -36,7 +36,10 @@ jobs:
       - run: sudo unshare --net -- env PYTHONPATH="$PWD/python" "$(command -v python)" python/tests/conformance_runner.py
       - run: sudo unshare --net -- /tmp/wallethd-go-conformance
       - run: sudo unshare --net -- /tmp/wallethd-dart-conformance
-      - run: sudo unshare --net -- env HOME="$HOME" GRADLE_USER_HOME="$GRADLE_USER_HOME" PATH="$PATH" "$(command -v gradle)" --offline --quiet conformance
+      - name: Run compiled Kotlin conformance classes without network access
+        run: |
+          KOTLIN_CP="build/classes/kotlin/main:$(find build/offline-conformance/lib -type f -name '*.jar' -print | paste -sd: -)"
+          sudo unshare --net -- "$JAVA_HOME/bin/java" -cp "$KOTLIN_CP" io.github.devdasx.wallethd.ConformanceKt
 
   swift-no-network:
     runs-on: macos-15
