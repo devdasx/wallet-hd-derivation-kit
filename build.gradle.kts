@@ -17,6 +17,17 @@ dependencyLocking {
     lockAllConfigurations()
 }
 
+// Dokka 2.1.0 still resolves Jackson 2.15.3 for its isolated HTML generator.
+// Keep that documentation-only graph on a patched, internally compatible 2.x line.
+configurations.configureEach {
+    resolutionStrategy.eachDependency {
+        if (requested.group == "com.fasterxml.jackson" && requested.name == "jackson-bom") {
+            useVersion("2.22.1")
+            because("Jackson 2.15.3 has published security advisories")
+        }
+    }
+}
+
 dependencies {
     api("org.bouncycastle:bcprov-jdk18on:1.84")
     implementation("org.bitcoinj:bitcoinj-core:0.17.1") {

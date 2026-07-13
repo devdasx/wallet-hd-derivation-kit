@@ -1,0 +1,4 @@
+[[IgnoredVulns]]
+id = "GHSA-5jmj-h7xm-6q6v"
+ignoreUntil = 2026-08-13
+reason = "The lockfile uses patched jackson-databind 2.22.1; the reviewed GitHub advisory defines 2.22.0 and earlier as affected, while the OSV record has not yet published the fixed-version field."
