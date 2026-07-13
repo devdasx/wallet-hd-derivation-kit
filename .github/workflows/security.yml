@@ -39,10 +39,12 @@ jobs:
         with: { swift-version: "6.2" }
       - uses: github/codeql-action/init@02c5e83432fe5497fd85b873b6c9f16a8578e1d9 # v3
         with: { languages: "${{ matrix.language }}" }
-      - if: matrix.language != 'java-kotlin'
+      - if: matrix.language != 'java-kotlin' && matrix.language != 'swift'
         uses: github/codeql-action/autobuild@02c5e83432fe5497fd85b873b6c9f16a8578e1d9 # v3
       - if: matrix.language == 'java-kotlin'
         run: gradle --no-daemon --no-build-cache --no-configuration-cache --rerun-tasks clean classes
+      - if: matrix.language == 'swift'
+        run: swift build
       - uses: github/codeql-action/analyze@02c5e83432fe5497fd85b873b6c9f16a8578e1d9 # v3
 
   audits:

@@ -7,7 +7,7 @@ permalink: /swift/
 
 # Swift
 
-In Xcode add `https://github.com/devdasx/wallet-hd-derivation-kit` from `1.0.0`, or add `.package(url: "https://github.com/devdasx/wallet-hd-derivation-kit.git", from: "1.0.0")`. CocoaPods users add `pod 'WalletHDDerivationKit', '~> 1.0'`.
+Swift Package Manager requires Swift tools 6.2 or newer. In Xcode add `https://github.com/devdasx/wallet-hd-derivation-kit` from `1.0.0`, or add `.package(url: "https://github.com/devdasx/wallet-hd-derivation-kit.git", from: "1.0.0")`. CocoaPods users add `pod 'WalletHDDerivationKit', '~> 1.0'`.
 
 ```swift
 import WalletHDDerivationKit

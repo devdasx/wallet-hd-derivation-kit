@@ -70,6 +70,8 @@ The CLI reads mnemonic/seed material through a hidden prompt, stdin, or a permis
 | Shell installer | `curl -fsSL https://raw.githubusercontent.com/devdasx/wallet-hd-derivation-kit/v1.0.0/install.sh \| sh` |
 | Container | `docker run --rm ghcr.io/devdasx/wallethd:1.0.0 list-chains` |
 
+Swift Package Manager requires Swift tools 6.2 or newer. CocoaPods consumers compile the same Swift sources with the toolchain selected by their application.
+
 See the verified examples for [Swift](docs/swift.md), [JavaScript](docs/javascript.md), [React Native](docs/react-native.md), [Python](docs/python.md), [Rust](docs/rust.md), [Go](docs/go.md), [Dart](docs/dart.md), [Flutter](docs/flutter.md), [Kotlin](docs/kotlin.md), and [CLI](docs/cli.md).
 
 ## Supported chains
