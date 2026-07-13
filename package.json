@@ -65,7 +65,7 @@
   "dependencies": {
     "@noble/curves": "2.0.1",
     "@noble/hashes": "2.2.0",
-    "@scure/bip39": "2.0.1"
+    "@scure/bip39": "2.2.0"
   },
   "devDependencies": {
     "jsr": "0.14.3",
