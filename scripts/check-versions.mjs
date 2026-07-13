@@ -1,6 +1,10 @@
 import { readFileSync } from "node:fs";
 
-const expected = (process.env.RELEASE_VERSION || process.env.GITHUB_REF_NAME?.replace(/^v/, "") || "1.0.0").trim();
+const packageVersion = JSON.parse(readFileSync("package.json", "utf8")).version;
+const tagVersion = process.env.GITHUB_REF_TYPE === "tag"
+  ? process.env.GITHUB_REF_NAME?.replace(/^v/, "")
+  : undefined;
+const expected = (process.env.RELEASE_VERSION || tagVersion || packageVersion).trim();
 const checks = [
   ["package.json", /"version":\s*"([^"]+)"/],
   ["jsr.json", /"version":\s*"([^"]+)"/],

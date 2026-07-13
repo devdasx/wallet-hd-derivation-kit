@@ -1,13 +1,16 @@
 import { execFileSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import process from "node:process";
 
-const root = new URL("../", import.meta.url).pathname;
+const root = fileURLToPath(new URL("../", import.meta.url));
+const virtualenvPython = `${root}.venv/bin/python`;
+const python = process.env.PYTHON || (existsSync(virtualenvPython) ? virtualenvPython : "python");
 const expectedVectors = JSON.parse(readFileSync(new URL("../test-vectors/public-vectors.json", import.meta.url)));
 const expected = Object.fromEntries(expectedVectors.addresses.map(({ chain, address }) => [chain, address]));
 const runners = [
   ["javascript", "node", ["javascript/test/conformance-runner.mjs"]],
-  ["python", `${root}.venv/bin/python`, ["python/tests/conformance_runner.py"]],
+  ["python", python, ["python/tests/conformance_runner.py"]],
   ["rust", "cargo", ["run", "--quiet", "--bin", "conformance"]],
   ["go", "go", ["run", "./cmd/conformance"]],
   ["dart", "dart", ["run", "tool/conformance.dart"]],

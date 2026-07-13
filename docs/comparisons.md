@@ -10,7 +10,7 @@ permalink: /comparisons/
 | Alternative | Prefer it when | Wallet HD Derivation Kit differs |
 |---|---|---|
 | bitcoinjs-lib + @scure/bip32 | You need the mature Bitcoin JS transaction ecosystem | This kit prioritizes one cross-language derivation contract and non-Bitcoin address formats; it is not a transaction builder |
-| bip-utils | You want Python’s broad chain-specific implementation | The Python package uses it as a maintained primitive while enforcing the smaller verified v1 matrix shared by seven languages |
+| bip-utils | You want Python’s broader chain-specific implementation | This package keeps a smaller verified matrix and uses narrower direct primitives to reduce transitive dependency and audit surface |
 | bitcoinj | You need mature JVM Bitcoin transactions, peer networking, or wallet services | This kit is derivation-only, offline, and includes EVM/TRON/Solana plus identical APIs elsewhere |
 | web3swift mnemonic tools | Your Swift application primarily needs Ethereum RPC and transaction features | This kit has no RPC and focuses on deterministic HD derivation across Bitcoin-style, EVM, TRON, and Solana chains |
 | btcd/hdkeychain | Your Go software needs Bitcoin-only primitives deeply integrated with btcd | This kit adds multi-chain address policy and shared vectors but does not replace btcd’s broader Bitcoin stack |

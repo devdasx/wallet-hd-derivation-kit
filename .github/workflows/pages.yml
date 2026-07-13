@@ -25,12 +25,17 @@ jobs:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
-        with: { node-version: 20, cache: npm }
+        with: { node-version: 24, cache: npm }
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with: { python-version: "3.13" }
       - uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260 # v1
       - uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4
         with: { distribution: temurin, java-version: "17" }
+      - uses: gradle/actions/setup-gradle@0b6dd653ba04f4f93bf581ec31e66cbd7dcb644d # v4
+      - uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30 # stable
+        with: { toolchain: "1.92.0" }
+      - uses: swift-actions/setup-swift@7591e4f04c00624cb043783da51a7fd6ee0a6bf6 # v2
+        with: { swift-version: "6.2" }
       - run: npm ci && npx typedoc --entryPoints javascript/src/index.d.ts --out docs/api/javascript
       - run: python -m pip install -e . pdoc==16.0.0 && pdoc wallet_hd_derivation_kit -o docs/api/python
       - run: cargo doc --locked --no-deps && mkdir -p docs/api/rust && cp -R target/doc/. docs/api/rust/

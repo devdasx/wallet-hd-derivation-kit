@@ -2,6 +2,7 @@ FROM rust:1.92-bookworm@sha256:e90e846de4124376164ddfbaab4b0774c7bdeef5e73886629
 WORKDIR /src
 COPY Cargo.toml Cargo.lock ./
 COPY rust ./rust
+COPY test-vectors ./test-vectors
 RUN cargo build --locked --release --bin wallethd
 
 FROM gcr.io/distroless/cc-debian12:nonroot@sha256:ce0d66bc0f64aae46e6a03add867b07f42cc7b8799c949c2e898057b7f75a151

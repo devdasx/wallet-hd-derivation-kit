@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
-        with: { node-version: 20, cache: npm }
+        with: { node-version: 24, cache: npm }
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with: { python-version: "3.13" }
       - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
@@ -24,7 +24,7 @@ jobs:
       - uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4
         with: { distribution: temurin, java-version: "17" }
       - uses: gradle/actions/setup-gradle@0b6dd653ba04f4f93bf581ec31e66cbd7dcb644d # v4
-      - run: npm ci && python -m pip install -e . && dart pub get && gradle --no-daemon classes
+      - run: npm ci && python -m pip install -e . && go mod download && dart pub get && gradle --no-daemon classes
       - run: cargo build --locked --release --bin wallethd
       - run: docker build -t wallethd-offline .
       - run: docker run --rm --network none wallethd-offline vectors verify
@@ -38,5 +38,7 @@ jobs:
     runs-on: macos-15
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: swift-actions/setup-swift@7591e4f04c00624cb043783da51a7fd6ee0a6bf6 # v2
+        with: { swift-version: "6.2" }
       - run: swift build --product WalletHDConformance
       - run: sandbox-exec -p '(version 1) (allow default) (deny network*)' swift run --skip-build --quiet WalletHDConformance

@@ -17,7 +17,12 @@ classifiers = [
   "Programming Language :: Python :: 3",
   "Topic :: Security :: Cryptography"
 ]
-dependencies = ["bip-utils==2.12.1"]
+dependencies = [
+  "coincurve==21.0.0",
+  "mnemonic==0.21",
+  "PyNaCl==1.6.2",
+  "pycryptodome==3.23.0"
+]
 
 [project.urls]
 Homepage = "https://devdasx.github.io/wallet-hd-derivation-kit/"

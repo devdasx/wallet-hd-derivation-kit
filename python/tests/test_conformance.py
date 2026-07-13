@@ -35,6 +35,7 @@ def test_private_export_is_explicit_and_round_trips():
     assert parsed.is_private
     assert serialize_extended_key(parsed, private=True) == secret["extendedPrivateKey"]
     assert "privateKeyHex" not in parsed.to_dict()
+    assert secret["extendedPrivateKey"] not in repr(parsed)
 
 
 @pytest.mark.parametrize(
@@ -77,7 +78,7 @@ def test_batches_and_failures():
 
 
 def test_all_public_contract_branches_and_decoder_failures():
-    from bip_utils import Base58Decoder, Base58Encoder
+    from wallet_hd_derivation_kit.core import _base58check_decode, _base58check_encode
 
     seed = bytes(range(16))
     assert derive_node(seed)["depth"] == 0
@@ -108,7 +109,7 @@ def test_all_public_contract_branches_and_decoder_failures():
         lambda: derive_address(SOURCE, script_type="unknown"),
         lambda: derive_addresses(SOURCE, count=0),
         lambda: parse_extended_key("not-base58!"),
-        lambda: parse_extended_key(Base58Encoder.CheckEncode(b"short")),
+        lambda: parse_extended_key(_base58check_encode(b"short")),
         lambda: serialize_extended_key(parsed_public, private=True),
         lambda: serialize_extended_key(parsed_public, format="unknown"),
         lambda: derive_address_from_extended_public_key(
@@ -116,8 +117,8 @@ def test_all_public_contract_branches_and_decoder_failures():
         ),
         lambda: derive_address_from_extended_public_key(zpub, chain="solana"),
     ]
-    payload = Base58Decoder.CheckDecode(zpub)
-    failures.append(lambda: parse_extended_key(Base58Encoder.CheckEncode(bytes.fromhex("deadbeef") + payload[4:])))
+    payload = _base58check_decode(zpub)
+    failures.append(lambda: parse_extended_key(_base58check_encode(bytes.fromhex("deadbeef") + payload[4:])))
     for operation in failures:
         with pytest.raises((HDWalletError, ValueError, TypeError)):
             operation()
@@ -129,3 +130,15 @@ def test_rejects_every_official_bip32_invalid_extended_key():
     for invalid in vectors["invalidExtendedKeys"]:
         with pytest.raises(HDWalletError, match="invalid|unknown|root"):
             parse_extended_key(invalid["value"])
+
+
+def test_matches_every_official_bip32_valid_node():
+    path = Path(__file__).parents[2] / "test-vectors" / "bip32-official.json"
+    vectors = json.loads(path.read_text(encoding="utf-8"))
+    for vector in vectors["vectors"]:
+        source = {"seedHex": vector["seedHex"]}
+        for expected in vector["nodes"]:
+            public = derive_account_public_key(source, format="xpub", path=expected["path"])
+            private = derive_account_private_key(source, format="xpub", path=expected["path"])
+            assert public["extendedPublicKey"] == expected["extendedPublicKey"]
+            assert private["extendedPrivateKey"] == expected["extendedPrivateKey"]
