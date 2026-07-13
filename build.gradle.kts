@@ -29,7 +29,7 @@ configurations.configureEach {
 }
 
 dependencies {
-    api("org.bouncycastle:bcprov-jdk18on:1.84")
+    api("org.bouncycastle:bcprov-jdk18on:1.85")
     implementation("org.bitcoinj:bitcoinj-core:0.17.1") {
         exclude(group = "org.bouncycastle", module = "bcprov-jdk15to18")
     }
