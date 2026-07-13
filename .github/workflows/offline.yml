@@ -29,7 +29,7 @@ jobs:
       - run: docker build -t wallethd-offline .
       - run: docker run --rm --network none wallethd-offline vectors verify
       - run: sudo unshare --net -- node javascript/test/conformance-runner.mjs
-      - run: sudo unshare --net -- python python/tests/conformance_runner.py
+      - run: sudo unshare --net -- env PYTHONPATH="$PWD/python" "$(command -v python)" python/tests/conformance_runner.py
       - run: sudo unshare --net -- go run ./cmd/conformance
       - run: sudo unshare --net -- dart run tool/conformance.dart
       - run: sudo unshare --net -- gradle --offline --quiet conformance
@@ -41,4 +41,7 @@ jobs:
       - uses: swift-actions/setup-swift@7591e4f04c00624cb043783da51a7fd6ee0a6bf6 # v2
         with: { swift-version: "6.2" }
       - run: swift build --product WalletHDConformance
-      - run: sandbox-exec -p '(version 1) (allow default) (deny network*)' swift run --skip-build --quiet WalletHDConformance
+      - name: Run built Swift conformance binary without network access
+        run: |
+          BIN_PATH="$(swift build --show-bin-path)"
+          sandbox-exec -p '(version 1) (allow default) (deny network*)' "$BIN_PATH/WalletHDConformance"
