@@ -3,7 +3,7 @@ name: Pages
 on:
   push:
     branches: [main]
-    paths: ["docs/**", "README.md", ".github/workflows/pages.yml"]
+    paths: ["docs/**", "README.md", "llms*.txt", ".github/workflows/pages.yml"]
   workflow_dispatch:
 
 permissions:
@@ -36,6 +36,8 @@ jobs:
         with: { toolchain: "1.92.0" }
       - uses: swift-actions/setup-swift@7591e4f04c00624cb043783da51a7fd6ee0a6bf6 # v2
         with: { swift-version: "6.2" }
+      - name: Add agent-readable package manifests
+        run: cp llms.txt llms-full.txt docs/
       - run: npm ci && npx typedoc --entryPoints javascript/src/index.d.ts --out docs/api/javascript
       - run: python -m pip install -e . pdoc==16.0.0 && pdoc wallet_hd_derivation_kit -o docs/api/python
       - run: cargo doc --locked --no-deps && mkdir -p docs/api/rust && cp -R target/doc/. docs/api/rust/
