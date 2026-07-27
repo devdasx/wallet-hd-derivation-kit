@@ -70,6 +70,6 @@
   "devDependencies": {
     "jsr": "0.14.3",
     "typedoc": "0.28.20",
-    "typescript": "6.0.3"
+    "typescript": "7.0.2"
   }
 }
