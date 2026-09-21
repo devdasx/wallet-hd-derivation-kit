@@ -1,5 +1,5 @@
 {
-  "originHash" : "db8f80c6f5f67976ba626d9aba041a8f1e5cc3bd69f670bf328e2dd64adbe937",
+  "originHash" : "d5def23b3d2d3a14f2221fcd7d2187dc457d240da622b2a0c26d61c32ba74d3f",
   "pins" : [
     {
       "identity" : "bip39-mnemonic-kit",
@@ -42,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-crypto.git",
       "state" : {
-        "revision" : "1b6b2e274e85105bfa155183145a1dcfd63331f1",
-        "version" : "4.5.0"
+        "revision" : "a9d1d5ab8951ada40cafff8c8e2b551dfde4f390",
+        "version" : "5.0.0"
       }
     },
     {
