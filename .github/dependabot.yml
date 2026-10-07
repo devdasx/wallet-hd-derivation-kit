@@ -1,31 +1,35 @@
+# Version updates paused at the repository owner's request.
 version: 2
-updates: []
-
-# Dependabot version-update schedules paused at the repository owner's request.
-# Original configuration retained below for easy restoration:
-# version: 2
-# updates:
-#   - package-ecosystem: npm
-#     directory: /
-#     schedule: { interval: weekly }
-#   - package-ecosystem: pip
-#     directory: /
-#     schedule: { interval: weekly }
-#   - package-ecosystem: cargo
-#     directory: /
-#     schedule: { interval: weekly }
-#   - package-ecosystem: gomod
-#     directory: /
-#     schedule: { interval: weekly }
-#   - package-ecosystem: pub
-#     directory: /
-#     schedule: { interval: weekly }
-#   - package-ecosystem: gradle
-#     directory: /
-#     schedule: { interval: weekly }
-#   - package-ecosystem: swift
-#     directory: /
-#     schedule: { interval: weekly }
-#   - package-ecosystem: github-actions
-#     directory: /
-#     schedule: { interval: weekly }
+updates:
+  - package-ecosystem: npm
+    open-pull-requests-limit: 0
+    directory: /
+    schedule: { interval: weekly }
+  - package-ecosystem: pip
+    open-pull-requests-limit: 0
+    directory: /
+    schedule: { interval: weekly }
+  - package-ecosystem: cargo
+    open-pull-requests-limit: 0
+    directory: /
+    schedule: { interval: weekly }
+  - package-ecosystem: gomod
+    open-pull-requests-limit: 0
+    directory: /
+    schedule: { interval: weekly }
+  - package-ecosystem: pub
+    open-pull-requests-limit: 0
+    directory: /
+    schedule: { interval: weekly }
+  - package-ecosystem: gradle
+    open-pull-requests-limit: 0
+    directory: /
+    schedule: { interval: weekly }
+  - package-ecosystem: swift
+    open-pull-requests-limit: 0
+    directory: /
+    schedule: { interval: weekly }
+  - package-ecosystem: github-actions
+    open-pull-requests-limit: 0
+    directory: /
+    schedule: { interval: weekly }
