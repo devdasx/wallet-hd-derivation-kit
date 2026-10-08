@@ -7,7 +7,7 @@ RUN cargo build --locked --release --bin wallethd
 
 FROM gcr.io/distroless/cc-debian12:nonroot@sha256:ce0d66bc0f64aae46e6a03add867b07f42cc7b8799c949c2e898057b7f75a151
 LABEL org.opencontainers.image.source="https://github.com/devdasx/wallet-hd-derivation-kit" \
-      org.opencontainers.image.version="1.0.0" \
+      org.opencontainers.image.version="1.0.1" \
       org.opencontainers.image.licenses="MIT"
 COPY --from=build /src/target/release/wallethd /usr/local/bin/wallethd
 ENTRYPOINT ["/usr/local/bin/wallethd"]

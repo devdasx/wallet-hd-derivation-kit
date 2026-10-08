@@ -2,7 +2,7 @@ module example.com/wallethd-example
 
 go 1.25.0
 
-require github.com/devdasx/wallet-hd-derivation-kit v1.0.0
+require github.com/devdasx/wallet-hd-derivation-kit v1.0.1
 
 require (
 	github.com/btcsuite/btcd/btcec/v2 v2.5.0 // indirect

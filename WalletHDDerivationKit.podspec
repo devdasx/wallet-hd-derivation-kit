@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name = "WalletHDDerivationKit"
-  spec.version = "1.0.0"
+  spec.version = "1.0.1"
   spec.summary = "Offline multi-chain HD wallet derivation for Swift."
   spec.description = <<-DESC
     Native BIP-32, BIP-44/49/84/86, SLIP-0010, SLIP-0132, extended-key,
@@ -10,7 +10,7 @@ Pod::Spec.new do |spec|
   spec.homepage = "https://devdasx.github.io/wallet-hd-derivation-kit/swift/"
   spec.source = { :git => "https://github.com/devdasx/wallet-hd-derivation-kit.git", :tag => "v#{spec.version}" }
   spec.license = { :type => "MIT", :file => "LICENSE" }
-  spec.author = { "ROYO STUDIOS" => "royostudios13@gmail.com" }
+  spec.author = { "ROYO STUDIOS" => "devdas98x@gmail.com" }
   spec.social_media_url = "https://github.com/devdasx"
   spec.swift_version = "6.0"
   # The secp256k1 pod ships a statically linked XCFramework. Declaring this

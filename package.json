@@ -1,6 +1,6 @@
 {
   "name": "wallet-hd-derivation-kit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Offline multi-chain HD wallet derivation for BIP32, BIP44, BIP49, BIP84, BIP86, SLIP10, xpub, ypub, zpub, Ethereum, Solana, TRON, Litecoin, and Dogecoin.",
   "type": "module",
   "main": "./javascript/src/index.js",
@@ -12,8 +12,8 @@
       "import": "./javascript/src/index.js"
     },
     "./chains": "./javascript/src/chains.js",
-    "./bip32": "./javascript/src/bip32.js"
-    ,"./react-native": "./javascript/src/react-native.js"
+    "./bip32": "./javascript/src/bip32.js",
+    "./react-native": "./javascript/src/react-native.js"
   },
   "files": [
     "javascript/src",
@@ -57,7 +57,7 @@
     "react-native",
     "offline"
   ],
-  "author": "ROYO STUDIOS <royostudios13@gmail.com>",
+  "author": "ROYO STUDIOS <devdas98x@gmail.com>",
   "license": "MIT",
   "engines": {
     "node": ">=20"

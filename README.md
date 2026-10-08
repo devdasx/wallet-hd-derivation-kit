@@ -17,7 +17,7 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/devdasx/wallet-hd-derivation-kit.svg)](https://pkg.go.dev/github.com/devdasx/wallet-hd-derivation-kit)
 [![pub.dev](https://img.shields.io/pub/v/wallet_hd_derivation_kit)](https://pub.dev/packages/wallet_hd_derivation_kit)
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.devdasx/wallet-hd-derivation-kit)](https://central.sonatype.com/artifact/io.github.devdasx/wallet-hd-derivation-kit)
-[![JitPack](https://jitpack.io/v/devdasx/wallet-hd-derivation-kit.svg)](https://jitpack.io/#devdasx/wallet-hd-derivation-kit/v1.0.0)
+[![JitPack](https://jitpack.io/v/devdasx/wallet-hd-derivation-kit.svg)](https://jitpack.io/#devdasx/wallet-hd-derivation-kit/v1.0.1)
 [![GitHub Packages](https://img.shields.io/badge/GitHub_Packages-%40devdasx%2Fwallet--hd--derivation--kit-181717)](https://github.com/devdasx/wallet-hd-derivation-kit/pkgs/npm/wallet-hd-derivation-kit)
 
 Production-oriented, offline HD-wallet derivation for Swift, JavaScript, React Native, Python, Rust, Go, Dart/Flutter, Kotlin/JVM/Android, and the `wallethd` CLI. Every implementation is native to its language and checked against the same public vectors.
@@ -55,20 +55,20 @@ The CLI reads mnemonic/seed material through a hidden prompt, stdin, or a permis
 
 | Platform | Command |
 |---|---|
-| Swift Package Manager | `.package(url: "https://github.com/devdasx/wallet-hd-derivation-kit.git", from: "1.0.0")` |
+| Swift Package Manager | `.package(url: "https://github.com/devdasx/wallet-hd-derivation-kit.git", from: "1.0.1")` |
 | CocoaPods | `pod 'WalletHDDerivationKit', '~> 1.0'` |
 | npm | `npm install wallet-hd-derivation-kit` |
 | GitHub npm | `npm install @devdasx/wallet-hd-derivation-kit` |
 | JSR | `deno add jsr:@devdasx/wallet-hd` |
 | Python | `python -m pip install wallet-hd-derivation-kit` |
 | Rust | `cargo add wallet-hd-derivation-kit` |
-| Go | `go get github.com/devdasx/wallet-hd-derivation-kit@v1.0.0` |
+| Go | `go get github.com/devdasx/wallet-hd-derivation-kit@v1.0.1` |
 | Dart / Flutter | `dart pub add wallet_hd_derivation_kit` / `flutter pub add wallet_hd_derivation_kit` |
-| Kotlin / Android | `implementation("io.github.devdasx:wallet-hd-derivation-kit:1.0.0")` |
+| Kotlin / Android | `implementation("io.github.devdasx:wallet-hd-derivation-kit:1.0.1")` |
 | Homebrew CLI | `brew install devdasx/crypto-kits/wallethd` |
-| Cargo CLI | `cargo install wallet-hd-derivation-kit --version 1.0.0 --locked` |
-| Shell installer | `curl -fsSL https://raw.githubusercontent.com/devdasx/wallet-hd-derivation-kit/v1.0.0/install.sh \| sh` |
-| Container | `docker run --rm ghcr.io/devdasx/wallethd:1.0.0 list-chains` |
+| Cargo CLI | `cargo install wallet-hd-derivation-kit --version 1.0.1 --locked` |
+| Shell installer | `curl -fsSL https://raw.githubusercontent.com/devdasx/wallet-hd-derivation-kit/v1.0.1/install.sh \| sh` |
+| Container | `docker run --rm ghcr.io/devdasx/wallethd:1.0.1 list-chains` |
 
 Swift Package Manager requires Swift tools 6.2 or newer. CocoaPods consumers compile the same Swift sources with the toolchain selected by their application.
 

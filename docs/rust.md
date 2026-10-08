@@ -8,7 +8,7 @@ permalink: /rust/
 # Rust
 
 ```sh
-cargo add wallet-hd-derivation-kit@1.0.0
+cargo add wallet-hd-derivation-kit@1.0.1
 ```
 
 ```rust

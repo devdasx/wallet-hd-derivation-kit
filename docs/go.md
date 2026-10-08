@@ -8,7 +8,7 @@ permalink: /go/
 # Go
 
 ```sh
-go get github.com/devdasx/wallet-hd-derivation-kit@v1.0.0
+go get github.com/devdasx/wallet-hd-derivation-kit@v1.0.1
 ```
 
 ```go

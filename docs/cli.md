@@ -7,7 +7,7 @@ permalink: /cli/
 
 # `wallethd` CLI
 
-Install with Homebrew (`brew install devdasx/crypto-kits/wallethd`), Cargo (`cargo install wallet-hd-derivation-kit --version 1.0.0 --locked`), or the checksum-verifying installers in the repository.
+Install with Homebrew (`brew install devdasx/crypto-kits/wallethd`), Cargo (`cargo install wallet-hd-derivation-kit --version 1.0.1 --locked`), or the checksum-verifying installers in the repository.
 
 ```sh
 wallethd address --chain bitcoin --prompt --pretty
